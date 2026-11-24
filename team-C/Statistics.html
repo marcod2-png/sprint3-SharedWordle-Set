@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+      html { background-color: #fff; }
+      html[data-theme="dark"],
+      html[data-theme="dark"] body { background-color: #000; }
+    </style>
+    <script>
+      (function () {
+        var dark = false;
+        try {
+          dark = localStorage.getItem("shared-wordle-dark-mode") === "true";
+        } catch (error) {}
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        document.documentElement.style.backgroundColor = dark ? "#000" : "#fff";
+        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+      })();
+    </script>
+    <title>Game Statistics</title>
+
+    <link rel="stylesheet" href="./styles/player-stats.css">
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <link rel="stylesheet" href="./styles/tokens.css" />
+</head>
+
+<body>
+    <!--Navigation buttons-->
+    <header>
+        <nav>
+            <a href = "StartScreen.html" class = "signout" id = "signout"><i class = "fa-solid fa-arrow-right-from-bracket"></i></a>
+            <a href="StartScreen.html"><i class="fa fa-fw fa-home"></i> </a> 
+            <a href="index.html"><i class = "fa-solid fa-gamepad"></i></a>
+            <a href="History.html"><i class="fa fa-fw fa-history"></i> </a> 
+            <a href="Statistics.html"><i class="fa fa-fw fa-chart-simple"></i> </a>
+            <a href="#" id="optionsButton"><i class="fa fa-fw fa-cog"></i> </a>
+        </nav>
+    </header>
+
+    <div class = "container">
+
+    <main class="statistics-page">
+        <h1>Statistics</h1>
+
+        <!--Player statistic information, ike wr and streak-->
+        <section class="statistics-summary">
+
+            <div class="stat">
+                <h2>Games Played</h2>
+                <p id="games-played">--</p>
+            </div>
+
+            <div class="stat">
+                <h2>Total Wins</h2>
+                <p id="total-wins">--</p>
+            </div>
+
+            <div class="stat">
+                <h2>Total Losses</h2>
+                <p id="total-losses">--</p>
+            </div>
+
+            <div class="stat">
+                <h2>Win Rate</h2>
+                <p id="win-rate">--</p>
+            </div>
+
+            <div class="stat">
+                <h2>Current Streak</h2>
+                <p id="current-streak">--</p>
+            </div>
+
+            <div class="stat">
+                <h2>Max Streak</h2>
+                <p id="max-streak">--</p>
+            </div>
+
+        </section>
+
+        <!--Guess distribution graph-->
+        <section class="guess-section">
+
+            <h2>Guess Distribution</h2>
+            <div class="guess-chart" id="guess-chart">
+                <!--The javascript file will be in charge of creating the bars-->
+            </div>
+        </section>
+
+
+    </main>
+
+    </div>
+
+    <!-- Testing Options Popup -->
+    <div class = "optionsPopup" id = "optionsPopup">
+
+        <div class = "top">
+            <a href = "#" class = "optionsExitButton" id = "optionsExitButton"> &times</a>
+        </div>
+
+        <h1> Options</h1>
+
+       <div class = "option">
+        
+            <h2> Dark Theme</h2>
+        
+            <div class = "optionsLayout">
+                    
+                <label class="switch">
+          
+                    <input type="checkbox" id = "darkTheme" onclick = "darkMode()">
+                    
+                    <span class="slider round"></span>
+
+                </label>
+                
+            </div>
+
+            
+        </div>
+
+        <hr>
+
+        <div class = "option">
+
+            <h2> High Contrast Mode</h2>
+    
+            <div class = "optionsLayout">
+    
+                <label class="switch">
+          
+                    <input type="checkbox" id = "highContrast" onclick = "highContrastMode()">
+
+                    <span class="slider round"></span>
+
+
+                </label>
+ 
+            </div>
+
+ 
+        </div>
+
+ 
+        <p> Contrast and colorblindness improvements</p>
+
+ 
+        <hr>
+
+ 
+    </div>
+
+    <script src="./javascript/statistics.js"></script>
+
+</body>
+</html>
+
