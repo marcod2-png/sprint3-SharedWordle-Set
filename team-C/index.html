@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="Play Wordle against a local CPU opponent"
+    />
+    <style>
+      html { background-color: #fff; }
+      html[data-theme="dark"],
+      html[data-theme="dark"] body { background-color: #000; }
+    </style>
+    <script>
+      (function () {
+        var dark = false;
+        try {
+          dark = localStorage.getItem("shared-wordle-dark-mode") === "true";
+        } catch (error) {}
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        document.documentElement.style.backgroundColor = dark ? "#000" : "#fff";
+        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+      })();
+    </script>
+    <title>CPU Wordle</title>
+    <!-- No build step: open this file directly, or serve the folder. -->
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/board.css" />
+    <link rel="stylesheet" href="./styles/keyboard.css"/>
+    <link rel="stylesheet" href="./styles/player.css"/>
+    <link rel="stylesheet" href="./styles/end-screen.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+
+        <nav aria-label="Primary">
+          <a href = "StartScreen.html" class = "signout" id = "signout"><i class = "fa-solid fa-arrow-right-from-bracket"></i></a>
+          <a href="StartScreen.html"><i class="fa fa-fw fa-home"></i> </a>
+          <a href="index.html"><i class = "fa-solid fa-gamepad"></i></a>
+          <a href="History.html"><i class="fa fa-fw fa-history"></i> </a> 
+          <a href="Statistics.html"><i class="fa fa-fw fa-chart-simple"></i> </a>
+          <a href="#" id="optionsButton"><i class="fa fa-fw fa-cog"></i> </a>
+        </nav>
+      </header>
+         
+      <div class="app">
+
+        <h1>Shared-State Wordle</h1>
+
+         <!--turn indicator -->
+        <h2 id="turn-indicator">Player 1's Turn</h2>
+
+        <!-- Player 1 + Board + Player 2 -->
+        <div class="player-layout">
+
+          <!-- Player 1-->
+          <div class="player" id="player1">
+
+            <h2 id="player1-name">Player 1</h2>
+            <p class="status" id="player1-status">Thinking...</p>
+      
+          </div>
+
+          <div class="app">
+        
+          <header class="app__bar" role="banner">
+            <div class="app__slot app__slot--start" data-slot="start"></div>
+            <div class="app__slot app__slot--center" data-slot="center"></div>
+            <div class="app__slot app__slot--end" data-slot="end"></div>
+          </header>
+
+            <main class="app__main">
+            
+              <div class="board-container">
+              
+                <div class="board" id="board" aria-label="Shared board"></div>
+            
+              </div>
+            </main>
+        </div>
+
+
+        <!-- Player 2 -->
+        <div class="player" id="player2">
+          
+          <h2 id="player2-name">Player 2</h2>
+          <p class="status" id="player2-status">Waiting...</p>
+        
+        </div>
+
+      </div>
+
+      <script src="./javascript/board.js"></script>
+
+      <div class = "keyboard-Container">
+
+      <!-- First line of keyboard -->
+      <button class="button">Q</button>
+      <button class="button">W</button>
+      <button class="button">E</button>
+      <button class="button">R</button>
+      <button class="button">T</button>
+      <button class="button">Y</button>
+      <button class="button">U</button>
+      <button class="button">I</button>
+      <button class="button">O</button>
+      <button class="button">P</button>
+
+      <br>
+
+      <!-- Second line of keyboard -->
+      <button class="button">A</button>
+      <button class="button">S</button>
+      <button class="button">D</button>
+      <button class="button">F</button>
+      <button class="button">G</button>
+      <button class="button">H</button>
+      <button class="button">J</button>
+      <button class="button">K</button>
+      <button class="button">L</button>
+
+      <br>
+
+      <!-- Third line of keyboard -->
+      <button class="enterButton">Enter</button>
+      <button class="button">Z</button>
+      <button class="button">X</button>
+      <button class="button">C</button>
+      <button class="button">V</button>
+      <button class="button">B</button>
+      <button class="button">N</button>
+      <button class="button">M</button>
+      <button class="deleteButton">Delete</button>
+
+      </div>
+    </div>
+  </div>
+
+    <div class = "optionsPopup" id = "optionsPopup">
+
+      <div class = "top">
+                <a href = "#" class = "optionsExitButton" id = "optionsExitButton"> &times</a>
+      </div>
+
+      <h1> Options</h1>
+
+      <div class = "option">
+
+        <h2> Dark Theme</h2>
+        
+        <div class = "optionsLayout">
+        <label class="switch">
+          
+          <input type="checkbox" id = "darkTheme" onclick = "darkMode()">
+          <span class="slider round"></span>
+
+        </label>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class = "option">
+
+        <h2> High Contrast Mode</h2>
+        <div class = "optionsLayout">
+        <label class="switch">
+          
+          <input type="checkbox" id = "highContrast" onclick = "highContrastMode()">
+          <span class="slider round"></span>
+
+        </label>
+        </div>
+
+      </div>
+
+      <p> Contrast and colorblindness improvements</p>
+
+      <hr>
+
+      <div class = "option">
+
+        <h2>Onscreen Keyboard Input Only</h2>
+        <div class = "optionsLayout">
+        <label class="switch">
+          
+          <input type="checkbox" id = "keyboardElement" onclick = "disableKeys()">
+          <span class="slider round"></span>
+
+        </label>
+        </div>
+      </div>
+
+      <p>Ignore key input except from the onscreen keyboard. Most helpful for users using speech recognition or other assistive devices.</p>
+
+      <hr>
+      
+    </div>
+
+    <div
+      class="game-result"
+      id="game-result"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="game-result-title"
+      aria-describedby="game-result-message"
+      hidden
+    >
+      <div class="game-result__panel">
+        <button
+          class="game-result__close"
+          id="game-result-close"
+          type="button"
+          aria-label="Close results"
+        >
+          &times;
+        </button>
+        <div class="game-result__icon" id="game-result-icon" aria-hidden="true"></div>
+        <h2 class="game-result__title" id="game-result-title"></h2>
+        <p class="game-result__message" id="game-result-message"></p>
+        <p class="game-result__answer" id="game-result-answer"></p>
+        <button class="game-result__button" id="new-game-button" type="button">
+          New Game
+        </button>
+      </div>
+    </div>
+
+    <script src="./javascript/words.js"></script>
+    <script src="./javascript/cpu.js"></script>
+    <script src="./javascript/game-colors.js"></script>
+    <script src="./javascript/end-screen.js"></script>
+    <script src="./javascript/key-input.js"></script>
+    <script src = "./javascript/Options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+#turn-indicator{
+  text-align: center;
+  margin-top: 20px;
+}
+
+/*Where the player boxes fall onto the screen*/
+.player-layout{
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Style for the box that the play info is in */
+.player{
+  text-align: leftr;
+  padding: 10px;
+  background-color: transparent;
+  color: #444;
+  border: none;
+  width: 170px;
+  margin-top: 10px;
+}
+
+
+/*Keeping player one on the left and player two on the right*/
+#player1{
+  justify-self: start;
+  text-align: left;
+}
+
+#player2{
+  justify-self: end;
+  text-align: right;
+}
+
+.player-layout .app{
+  min-height: auto;
+  width: 500px;
+}
+
+.keyboard-Container{
+  text-align: center;
+  margin-top: 20px;
+}
