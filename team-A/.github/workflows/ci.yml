@@ -1,0 +1,44 @@
+name: CI tests
+
+on:
+  push:
+    branches: [flask-server]
+  pull_request:
+    branches: [flask-server]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      FLASK_SECRET_KEY: ci-test-secret
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.0 # Do not use version 3+
+
+      - name: Start local supabase
+        run: supabase start
+
+      - name: Extract Supabase Environment Variables
+        run: |
+          echo "SUPABASE_URL=$(supabase status -o env | grep '^API_URL' | cut -d= -f2- | tr -d '\"')" >> $GITHUB_ENV
+          echo "SUPABASE_SECRET_KEY=$(supabase status -o env | grep '^SECRET_KEY' | cut -d= -f2- | tr -d '\"')" >> $GITHUB_ENV
+          echo "SUPABASE_PUBLISHABLE_KEY=$(supabase status -o env | grep '^PUBLISHABLE_KEY' | cut -d= -f2- | tr -d '\"')" >> $GITHUB_ENV
+     
+      - name: Start Flask server
+        run: |
+            flask --app flask_server run --port 5000 > flask.log 2>&1 &
+            curl -so /dev/null --retry 30 --retry-delay 1 --retry-connrefused http://127.0.0.1:5000
+
+      - name: Run tests
+        run: pytest -v
