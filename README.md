@@ -6,13 +6,43 @@ Shared State Wordle takes the classic single player game and adds a multiplayer 
 
 | Connection (A -> B) | What is passed? (Function or Endpoint) | Format and Example | Owner | Done By |
 | ------------------- | -------------------------------------- | ------------------ | ----- | ------- |
-| Frontend Client -> Backend Server | GET /games/{games_id} | Data               | TEAM A | DONE |
-| Frontend Client -> Backend Server | Data                                   | Data               |       |         |
-| Frontend Client -> Backend Server | Data                                   | Data               |       |         |
-| Frontend Client -> Backend Server | Data                                   | Data               |       |         |
-| Frontend Client -> Backend Server | Data                                   | Data               |       |         |
-| Frontend Client -> Backend Server | Data                                   | Data               |       |         |
-
+| Frontend Client -> Backend Server | GET /games/{games_id} | Response: {"game_id":"
+<uuid>","status":"start
+ed","created_at":"
+<timestamp>","ended_at"
+:"
+<timestamp>","language"
+:"
+<language>","players":
+[{"player_id":"
+<uuid>","username":"
+<name>","turn_order":1,
+"result":null},
+{"player_id":"
+<uuid>","username":"
+<name>","turn_order":2,
+"result":null}],"guesse
+s":
+[{"attempt_num":1,"play
+er_id":"
+<uuid>","word":"
+<guess>","feedback":"",
+"made_at":"
+<timestamp>"}],"current
+_turn":"
+<uuid>","answer":"
+<answer>"}             | TEAM A | DONE |
+| Frontend Client -> Backend Server | POST /games/match | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | DELETE /games/match | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | POST /games | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | GET /games/match | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | DELETE /games/{games_id} | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | POST /games/{game_id}/join | Data               | TEAM A | DONE |
+| Frontend Client -> Backend Server | POST /users/login | Data               | Team A | DONE |
+| Frontend Client -> Backend Server | POST /users/edit/language | Data               | TEAM A | 11/26/26 |
+| Frontend Client -> Backend Server | POST /game/guess | Data               | TEAM A | TBD |
+| Frontend Client -> Backend Server | POST /users | Data               | TEAM A | TBD |
+| Frontend Client -> Backend Server | POST /users/history | Data               | TEAM A | TBD |
 
 ## Getting Started
 
